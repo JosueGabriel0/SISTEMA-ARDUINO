@@ -25,4 +25,26 @@ public class RFIDController {
         Tarjeta nuevaTarjeta = tarjetaService.registrarTarjeta(tarjeta);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaTarjeta);
     }
+
+    @GetMapping("/listar")
+    public ResponseEntity<?> listarTarjetas(){
+        return ResponseEntity.ok(tarjetaService.listarTarjetas());
+    }
+
+    @GetMapping("/listarPorId/{id}")
+    public ResponseEntity<Tarjeta> listarTarjetasPorId(@PathVariable(required = true) Long id){
+        return ResponseEntity.ok(tarjetaService.listarTarjetaPorId(id));
+    }
+
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<?> actualizarTarjeta(@PathVariable(required = true) Long id,@RequestBody Tarjeta tarjeta){
+        tarjeta.setId(id);
+        return ResponseEntity.ok(tarjetaService.editarTarjeta(tarjeta));
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public String eliminarTarjeta(@PathVariable(required = true) Long id){
+        tarjetaService.eliminarTarjeta(id);
+        return "Tarjeta eliminada correctamente";
+    }
 }
