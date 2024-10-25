@@ -13,9 +13,11 @@ public interface TarjetaService {
 
     public List<Tarjeta> listarTarjetas();
 
-    public Tarjeta listarTarjetaPorId(Long id);
+    public Tarjeta listarTarjetaPorId(Long idTarjeta);
 
     public Tarjeta editarTarjeta(Tarjeta tarjeta);
 
-    public void eliminarTarjeta(Long id);
+    public void eliminarTarjeta(Long idTarjeta);
+
+    public void eliminarTarjetaConVehiculo(Long idTarjeta);
 }

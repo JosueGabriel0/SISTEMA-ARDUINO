@@ -8,7 +8,7 @@ import lombok.Data;
 public class Tarjeta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idTarjeta;
     private String uid;  // UID de la tarjeta RFID
 
     @ManyToOne

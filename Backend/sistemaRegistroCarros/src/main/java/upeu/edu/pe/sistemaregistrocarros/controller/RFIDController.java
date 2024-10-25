@@ -27,24 +27,30 @@ public class RFIDController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity<?> listarTarjetas(){
+    public ResponseEntity<?> listarTarjetas() {
         return ResponseEntity.ok(tarjetaService.listarTarjetas());
     }
 
     @GetMapping("/listarPorId/{id}")
-    public ResponseEntity<Tarjeta> listarTarjetasPorId(@PathVariable(required = true) Long id){
+    public ResponseEntity<Tarjeta> listarTarjetasPorId(@PathVariable(required = true) Long id) {
         return ResponseEntity.ok(tarjetaService.listarTarjetaPorId(id));
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> actualizarTarjeta(@PathVariable(required = true) Long id,@RequestBody Tarjeta tarjeta){
-        tarjeta.setId(id);
+    public ResponseEntity<?> actualizarTarjeta(@PathVariable(required = true) Long id, @RequestBody Tarjeta tarjeta) {
+        tarjeta.setIdTarjeta(id);
         return ResponseEntity.ok(tarjetaService.editarTarjeta(tarjeta));
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String eliminarTarjeta(@PathVariable(required = true) Long id){
+    @DeleteMapping("/eliminarTarjeta/{id}")
+    public String eliminarTarjeta(@PathVariable(required = true) Long id) {
         tarjetaService.eliminarTarjeta(id);
         return "Tarjeta eliminada correctamente";
+    }
+
+    @DeleteMapping("/eliminarTarjetaConVehiculo/{idTarjeta}")
+    public ResponseEntity<String> eliminarTarjetaConVehiculo(@PathVariable Long idTarjeta) {
+        tarjetaService.eliminarTarjetaConVehiculo(idTarjeta);
+        return ResponseEntity.ok("Tarjeta y vehículo eliminados correctamente");
     }
 }

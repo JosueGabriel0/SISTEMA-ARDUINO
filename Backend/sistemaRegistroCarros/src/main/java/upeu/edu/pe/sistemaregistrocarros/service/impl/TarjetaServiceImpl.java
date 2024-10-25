@@ -1,5 +1,6 @@
 package upeu.edu.pe.sistemaregistrocarros.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.sistemaregistrocarros.entity.Tarjeta;
@@ -29,7 +30,7 @@ public class TarjetaServiceImpl implements TarjetaService {
     public Tarjeta registrarTarjeta(Tarjeta tarjeta) {
         // Verificar si el vehículo ya está guardado en la base de datos
         Vehiculo vehiculo = tarjeta.getVehiculo();
-        if (vehiculo != null && vehiculo.getId() == null) {
+        if (vehiculo != null && vehiculo.getIdVehiculo() == null) {
             // Si el vehículo no está persistido, guardarlo primero
             vehiculo = vehiculoRepository.save(vehiculo);
             tarjeta.setVehiculo(vehiculo);
@@ -45,15 +46,15 @@ public class TarjetaServiceImpl implements TarjetaService {
     }
 
     @Override
-    public Tarjeta listarTarjetaPorId(Long id){
-        return tarjetaRepository.findById(id).get();
+    public Tarjeta listarTarjetaPorId(Long idTarjeta){
+        return tarjetaRepository.findById(idTarjeta).get();
     }
 
     @Override
     public Tarjeta editarTarjeta(Tarjeta tarjeta){
         // Verificar si el vehículo ya está guardado en la base de datos
         Vehiculo vehiculo = tarjeta.getVehiculo();
-        if (vehiculo != null && vehiculo.getId() == null) {
+        if (vehiculo != null && vehiculo.getIdVehiculo() == null) {
             // Si el vehículo no está persistido, guardarlo primero
             vehiculo = vehiculoRepository.save(vehiculo);
             tarjeta.setVehiculo(vehiculo);
@@ -64,7 +65,26 @@ public class TarjetaServiceImpl implements TarjetaService {
     }
 
     @Override
-    public void eliminarTarjeta(Long id){
-        tarjetaRepository.deleteById(id);
+    public void eliminarTarjeta(Long idTarjeta){
+        tarjetaRepository.deleteById(idTarjeta);
     }
+
+    @Override
+    public void eliminarTarjetaConVehiculo(Long idTarjeta) {
+        // Encuentra la tarjeta por su ID
+        Tarjeta tarjeta = tarjetaRepository.findById(idTarjeta)
+                .orElseThrow(() -> new EntityNotFoundException("Tarjeta no encontrada"));
+
+        // Almacena una referencia al vehículo asociado si existe
+        Vehiculo vehiculo = tarjeta.getVehiculo();
+
+        // Elimina la tarjeta primero
+        tarjetaRepository.delete(tarjeta);
+
+        // Después, si el vehículo existe, elimínalo
+        if (vehiculo != null) {
+            vehiculoRepository.delete(vehiculo);
+        }
+    }
+
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 public class Vehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idVehiculo;
     private String numeroPlaca;
     private Date revisionTecnica;
     private String nombrePropietario;

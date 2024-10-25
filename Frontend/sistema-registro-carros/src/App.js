@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as BrowserRouter, Routes, Route } from 'react-router-dom';
+import ListTarjetaComponent from './components/Tarjeta/ListTarjetaComponent';
+import ListVehiculoComponent from './components/Vehiculo/ListVehiculoComponent';
+import GeneralInicioComponent from './components/general/GeneralInicioComponent';
+import AddTarjetaComponent from './components/Tarjeta/AddTarjetaComponent';
+import AddVehiculoComponent from './components/Vehiculo/AddVehiculoComponent';
+import ListTarjetasVehiculosComponent from './components/TargetasVehiculos/ListTarjetasVehiculosComponent';
+import AddTarjetasVehiculosComponent from './components/TargetasVehiculos/AddTarjetasVehiculosComponent'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className='container'>
+        <Routes>
+          <Route path='/' element={<GeneralInicioComponent/>} />
+
+          <Route path='/tarjetas' element={<ListTarjetaComponent/>} />
+          <Route path='/add-tarjeta' element={<AddTarjetaComponent/>} />
+          <Route path='/edit-tarjeta/:id' element={<AddTarjetaComponent/>} />
+
+          <Route path='/vehiculos' element={<ListVehiculoComponent/>} />
+          <Route path='/add-vehiculo' element={<AddVehiculoComponent/>} />
+          <Route path='/adit-vehiculo/:id' element={<AddVehiculoComponent/>} />
+
+          <Route path='/tarjetasYvehiculos' element={<ListTarjetasVehiculosComponent/>} />
+          <Route path='/add-tarjetasYvehiculos' element={<AddTarjetasVehiculosComponent/>} />
+          <Route path='/edit-tarjetasYvehiculos/:id' element={<AddTarjetasVehiculosComponent/>} />
+
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

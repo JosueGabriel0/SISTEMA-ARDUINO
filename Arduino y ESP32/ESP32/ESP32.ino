@@ -7,6 +7,7 @@ const char* password = "josuegaaa";
 
 // URL del servidor backend
 const char* serverUrl = "http://192.168.148.252:8082/api/rfid"; // Cambia localhost por la IP del servidor backend
+const char* serverUrl2 = "http://192.168.148.252:8082/api/verificacion"; // Cambia localhost por la IP del servidor backend
 
 void setup() {
   Serial.begin(115200);    // Comunicación serial para depuración
@@ -63,8 +64,10 @@ void loop() {
     // Verificar si la tarjeta está registrada
     if (verificarTarjeta(uid)) {
       Serial.println("Acceso permitido");
+      enviarMensaje("Acceso permitido con UID: " + uid); // Enviar mensaje de acceso permitido
     } else {
       Serial.println("Tarjeta no registrada. Procediendo a registrar...");
+      enviarMensaje("Tarjeta no registrada con UID: " + uid); // Enviar mensaje de tarjeta no registrada
       registrarTarjeta(uid);
     }
   }
@@ -108,10 +111,10 @@ void registrarTarjeta(String uid) {
     String jsonPayload = "{"
                          "\"uid\":\"" + uid + "\"," 
                          "\"vehiculo\":{"
-                         "\"numeroPlaca\":\"ABC123\","
+                         "\"numeroPlaca\":\"Vacio\","
                          "\"revisionTecnica\":\"2024-10-15\","
-                         "\"nombrePropietario\":\"Juan Pérez\","
-                         "\"otrosDatos\":\"Algunos otros datos\""
+                         "\"nombrePropietario\":\"Vacio\","
+                         "\"otrosDatos\":\"Vacio\""
                          "}"
                          "}";
 
@@ -121,9 +124,33 @@ void registrarTarjeta(String uid) {
     // Verifica si el estado es 200 al registrar la tarjeta
     if (httpResponseCode == 200) { 
       Serial.println("Tarjeta registrada exitosamente");
+      enviarMensaje("Tarjeta registrada: " + uid); // Enviar mensaje de registro
     } else {
       Serial.println("Error al registrar la tarjeta: " + String(httpResponseCode));
       Serial.println("Contenido de la respuesta: " + http.getString());
+    }
+
+    http.end();
+  } else {
+    Serial.println("Error: No conectado a WiFi.");
+  }
+}
+
+// Función para enviar mensajes al servidor
+void enviarMensaje(String mensaje) {
+  if (WiFi.status() == WL_CONNECTED) { // Verificar la conexión Wi-Fi
+    HTTPClient http;
+    String url = String(serverUrl2) + "/enviar"; // Asegúrate de tener el endpoint "/enviar" en tu servidor
+    Serial.println("Enviando mensaje: " + mensaje);
+    http.begin(url);
+    http.addHeader("Content-Type", "text/plain");
+
+    int httpResponseCode = http.POST(mensaje); // Envía el mensaje como POST
+
+    if (httpResponseCode > 0) {
+      Serial.println("Mensaje enviado correctamente: " + String(httpResponseCode));
+    } else {
+      Serial.println("Error al enviar el mensaje: " + String(httpResponseCode));
     }
 
     http.end();

@@ -1,0 +1,18 @@
+Conexiones para el RFID RC522: "Conexión del Módulo RFID RC522 al Arduino Uno:
+Conecta el módulo RFID al Arduino Uno siguiendo esta configuración:
+
+VCC del RC522 a 5V del Arduino
+GND del RC522 a GND del Arduino
+SDA del RC522 al pin 10 del Arduino
+SCK del RC522 al pin 13 del Arduino
+MOSI del RC522 al pin 11 del Arduino
+MISO del RC522 al pin 12 del Arduino
+IRQ del RC522 no se necesita conectar (se puede dejar sin conexión)
+RST del RC522 al pin 9 del Arduino" y el ESP32
+
+Conexión entre Arduino Uno y ESP32:
+Conecta el Arduino Uno y el ESP32 para permitir la comunicación serie:
+
+TX del Arduino Uno a RX2 del ESP32 (pin GPIO 16)
+RX del Arduino Uno a TX2 del ESP32 (pin GPIO 17)
+Conecta las tierras (GND) del Arduino Uno y el ESP32.
