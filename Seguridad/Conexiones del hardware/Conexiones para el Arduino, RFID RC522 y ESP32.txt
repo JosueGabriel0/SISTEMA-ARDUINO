@@ -1,7 +1,7 @@
 Conexiones para el RFID RC522: "Conexión del Módulo RFID RC522 al Arduino Uno:
 Conecta el módulo RFID al Arduino Uno siguiendo esta configuración:
 
-VCC del RC522 a 5V del Arduino
+VCC del RC522 a 3.3V del Arduino
 GND del RC522 a GND del Arduino
 SDA del RC522 al pin 10 del Arduino
 SCK del RC522 al pin 13 del Arduino
