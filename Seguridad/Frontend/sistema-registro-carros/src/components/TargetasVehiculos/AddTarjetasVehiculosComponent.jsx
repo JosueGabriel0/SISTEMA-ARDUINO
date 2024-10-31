@@ -18,14 +18,18 @@ function AddTarjetaComponent() {
 
     function saveOrUpdateTarjeta(e) {
         e.preventDefault();
-
+    
+        // Crea una copia de vehiculo sin el campo idVehiculo
+        const { idVehiculo, ...vehiculoSinId } = vehiculo;
+    
+        // Crea el objeto tarjeta con el vehiculo sin el idVehiculo
         const tarjeta = {
             uid,
-            vehiculo
+            vehiculo: vehiculoSinId
         };
-
+    
         if (id) {
-            console.log("Este es el id "+id+", Y este es la tarjeta: "+ JSON.stringify(tarjeta))
+            console.log("Este es el id " + id + ", y esta es la tarjeta: " + JSON.stringify(tarjeta));
             TarjetaService.putTarjeta(id, tarjeta)
                 .then(response => {
                     console.log(response.data);
@@ -44,7 +48,7 @@ function AddTarjetaComponent() {
                     console.log(error);
                 });
         }
-    }
+    }    
 
     useEffect(() => {
         if (id) {
@@ -135,7 +139,7 @@ function AddTarjetaComponent() {
                         {botonAgregarOActualizar()}
                     </button>
                     &nbsp;&nbsp;
-                    <Link to="/tarjetas">Cancelar</Link>
+                    <Link to="/tarjetasYvehiculos">Cancelar</Link>
                 </div>
             </form>
         </div>

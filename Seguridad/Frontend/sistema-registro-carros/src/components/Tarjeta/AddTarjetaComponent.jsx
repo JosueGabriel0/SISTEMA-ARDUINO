@@ -15,14 +15,14 @@ function AddTarjetaComponent(){
         if(id){
             TarjetaService.putTarjeta(id, tarjeta).then(response => {
                 console.log(response.data);
-                navigate("/tarjetas");
+                navigate("/tarjetasYvehiculos");
             }).catch(error => {
                 console.log(error);
             })
         }else{
             TarjetaService.postTarjeta(tarjeta).then(response => {
                 console.log(response.data);
-                navigate("/tarjetas");
+                navigate("/tarjetasYvehiculos");
             }).catch(error => {
                 console.log(error);
             })
@@ -67,7 +67,7 @@ function AddTarjetaComponent(){
                     <button onClick={(e) => saveOrUpdateTarjeta(e)}>{botonAgregarOActualizar()}</button>
                     &nbsp;
                     &nbsp;
-                    <Link to="/tarjetas">Cancelar</Link>
+                    <Link to="/tarjetasYvehiculos">Cancelar</Link>
                 </div>
             </form>
         </div>

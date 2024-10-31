@@ -1,13 +1,36 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TarjetaService from "../../services/Tarjeta/TarjetaService";
+import VerificacionService from "../../services/Verificacion/VerificacionService"; // Asegúrate de que esta ruta sea correcta
 
 function ListTarjetasVehiculosComponent() {
     const [tarjetasVehiculos, setTarjetasVehiculos] = useState([]);
+    const [mensaje, setMensaje] = useState(""); // Estado para almacenar el mensaje
+
+    // Determina la clase CSS basada en el mensaje
+    const mensajeClase = mensaje.toLowerCase().includes("no") ? "alert alert-danger mt-4" : "alert alert-info mt-4";
 
     useEffect(() => {
         listarTarjetasVehiculos();
+        
+        // Intervalo para obtener el mensaje cada 5 segundos
+        const intervaloMensaje = setInterval(() => {
+            obtenerMensaje();
+        }, 2000);
+
+        // Limpiar el intervalo cuando el componente se desmonte
+        return () => clearInterval(intervaloMensaje);
     }, []);
+
+    function obtenerMensaje() {
+        VerificacionService.obtenerMensaje()
+            .then(response => {
+                setMensaje(response.data); // Guarda el mensaje obtenido
+            })
+            .catch(error => {
+                console.error("Error al obtener el mensaje:", error);
+            });
+    }
 
     function listarTarjetasVehiculos() {
         TarjetaService.getAllTarjetas() // Llama al servicio que retorna las tarjetas con los datos del vehículo
@@ -20,28 +43,12 @@ function ListTarjetasVehiculosComponent() {
             });
     }
 
-    function eliminarTarjeta(idTarjeta){
-        TarjetaService.deleteTarjeta(idTarjeta).then(response => {
-            listarTarjetasVehiculos();
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
     function eliminarTarjetaConVehiculo(idTarjeta){
         TarjetaService.deleteTarjetaConVehiculo(idTarjeta).then(response => {
             listarTarjetasVehiculos();
         }).catch(error => {
             console.log(error);
         });
-    }
-
-    function eliminarTarjeta(idTarjeta){
-        TarjetaService.deleteTarjeta(idTarjeta).then(response => {
-            listarTarjetasVehiculos();
-        }).catch(error => {
-            console.log(error);
-        })
     }
 
     return (
@@ -87,6 +94,11 @@ function ListTarjetasVehiculosComponent() {
                     }
                 </tbody>
             </table>
+
+            {/* Mostrar el mensaje recibido con el color adecuado */}
+            <div className={mensajeClase}>
+                <strong>Mensaje del servidor:</strong> {mensaje || "No hay mensajes recibidos."}
+            </div>
         </div>
     );
 }
