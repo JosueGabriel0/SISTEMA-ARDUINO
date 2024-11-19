@@ -80,6 +80,8 @@ void cerrarBarrera() {
 }
 
 void actualizarLCD() {
-  lcd.setCursor(10, 1);
-  lcd.print(espaciosDisponibles);
+   lcd.setCursor(10, 1);  // Mueve el cursor a la posición adecuada
+   lcd.print("   ");      // Limpia la zona donde se escribirá el número (tres espacios)
+   lcd.setCursor(10, 1);  // Vuelve a posicionar el cursor
+   lcd.print(espaciosDisponibles);  // Escribe el valor actualizado
 }
