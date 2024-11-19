@@ -2,12 +2,12 @@
 #include <HTTPClient.h>
 
 // Configuración Wi-Fi
-const char* ssid = "josuexd";
-const char* password = "josuegaaa";
+const char* ssid = "N";
+const char* password = "12345678";
 
 // URL del servidor backend
-const char* serverUrl = "http://192.168.148.252:8082/api/rfid"; // Cambia localhost por la IP del servidor backend
-const char* serverUrl2 = "http://192.168.148.252:8082/api/verificacion"; // Cambia localhost por la IP del servidor backend
+const char* serverUrl = "http://192.168.101.252:8082/api/rfid"; // Cambia localhost por la IP del servidor backend
+const char* serverUrl2 = "http://192.168.101.252:8082/api/verificacion"; // Cambia localhost por la IP del servidor backend
 
 void setup() {
   Serial.begin(115200);    // Comunicación serial para depuración
